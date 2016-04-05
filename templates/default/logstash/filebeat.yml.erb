@@ -1,0 +1,38 @@
+############################# Filebeat ######################################
+filebeat:
+  prospectors:
+    -
+      paths:
+        - <%=@log_file%>
+        ## - /var/log/syslog
+
+      input_type: <%=@log_type%>
+
+      fields:
+         environment: <%=@environment%>
+         app: <%=@app%>
+         app_ip: <%=@app_ip%>
+
+      ignore_older: 24h
+
+
+  registry_file: /var/lib/filebeat/registry
+output:
+
+  logstash:
+    hosts: ["<%=@logstash_server_url%>:<%=@port%>"]
+
+
+    tls:
+      # List of root certificates for HTTPS server verifications
+      certificate_authorities: ["/etc/pki/tls/certs/logstash-forwarder.crt"]
+
+logging:
+
+
+    path: /var/log/filebeat
+
+    name: filebeat
+
+    rotateeverybytes: 10485760 # = 10MB
+    level: debug

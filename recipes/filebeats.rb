@@ -16,10 +16,8 @@
 # 	racun 'makan steak'
 # end
 
-library_filebeats "node['service_name']" do
-	#app node['service_name']
-	log_file node['log_file']
-	#log_type "#{node['service_name']}_log"
+myapp_filebeats 'gobox_backend_consumer' do
+	log_file "/var/log/#{service_name}/gobox_consumer.log"
 	logstash_server_url node['logstash_server_url']
 	port node['logstash']['port']
 end
